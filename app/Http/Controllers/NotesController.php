@@ -6,6 +6,7 @@ use App\Note;
 use App\NoteHasUser;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\NotesRequest;
 
 class NotesController extends Controller
 {
@@ -20,7 +21,7 @@ class NotesController extends Controller
     }
 
     // function to insert a note to the database
-    public function store(Request $request)
+    public function store(NotesRequest $request)
     {
         $note = new Note();
 

@@ -7,9 +7,21 @@
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#createNote">Maak een Notitie</button>
         </div>
 
+        <!-- message when something went well -->
         @if(session('message'))
             <div class="alert alert-success">
                 {{ session('message') }}
+            </div>
+        @endif
+
+        <!-- message when there are errors -->
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error}}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
