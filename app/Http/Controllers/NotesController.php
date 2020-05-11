@@ -62,7 +62,7 @@ class NotesController extends Controller
         $note->note = $request->note;
         $note->save();
 
-        // the relationship between the users and note will first all be deleted, except the from the author.
+        // the relationship between the users and note will first all be deleted, except the author.
         // then all relationships (the new ones) will be made.
         $noteHasUsers = NoteHasUser::all();
 

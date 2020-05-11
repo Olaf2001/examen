@@ -26,10 +26,12 @@
         @endif
 
         <div class="row justify-content-between">
+            <!-- code will be repeated for each note -->
             @foreach($notes as $note)
                 
                 <!-- get the id of the user who write a note -->
                 @php($authorUserId = "")
+                <!-- code will be repeated for each noteHasUser -->
                 @foreach($noteHasUsers as $noteHasUser)
                     @if($noteHasUser->note_id == $note->id)
                         @if($noteHasUser->status_id == 1)
@@ -68,6 +70,7 @@
                                 <div>
                                     Personen gekoppeld aan deze notitite:
                                     <ul>
+                                        <!-- for each NoteHasUser, the code will be repeated -->
                                         @foreach($noteHasUsers as $noteHasUser)
                                             @if($noteHasUser->note_id == $note->id)
                                                 <li>{{ $noteHasUser->user->name }} - {{ $noteHasUser->status->name }}</li>
@@ -112,9 +115,11 @@
                                             <div>
                                                 Personen koppelen aan de notitie
                                                 <div class="row">
+                                                    <!-- code will be repeated for each user -->
                                                     @foreach($users as $user)
                                                         @php($check = "")
                                                         @php($author = "")
+                                                        <!-- code will be repeated for each noteHasUser -->
                                                         @foreach($noteHasUsers as $noteHasUser)
                                                             @if($noteHasUser->note_id == $note->id)
                                                                 @if($noteHasUser->user_id == $user->id)
@@ -125,6 +130,7 @@
                                                                 @endif
                                                             @endif
                                                         @endforeach
+                                                        <!-- you can't assign the writer of the note -->
                                                         @if($author <> "true")
                                                             <div class="col-md-6 custom-control custom-checkbox">
                                                                 <input {{ $check }} id="note{{ $note->id }}User{{ $user->id }}" name="user_id[]" type="checkbox" class="custom-control-input" value="{{ $user->id }}"/>
@@ -163,6 +169,7 @@
                                     <div>
                                         Personen gekoppeld aan deze notitite:
                                         <ul>
+                                            <!-- code will be repeated for each noteHasUser -->
                                             @foreach($noteHasUsers as $noteHasUser)
                                                 @if($noteHasUser->note_id == $note->id)
                                                     <li>{{ $noteHasUser->user->name }} - {{ $noteHasUser->status->name }}</li>
@@ -211,6 +218,7 @@
                                     <div>
                                         Personen koppelen aan de notitie
                                         <div class="row">
+                                            <!-- code will be repeated for each user, but logged in user will not be shown -->
                                             @foreach($users as $user)
                                                 @if(Auth::user()->id <> $user->id)
                                                     <div class="col-md-6 custom-control custom-checkbox">
