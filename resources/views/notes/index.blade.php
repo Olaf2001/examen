@@ -32,7 +32,8 @@
                     <p>{{ Str::limit($note->note, 150, '...') }}</p>
                     <div class="button-section">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showNote{{$note->id}}">Show</button>
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editNote{{$note->id}}">Aanpassen</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editNote{{$note->id}}">Edit</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteNote{{$note->id}}">Delete</button>
                     </div>
                 </div>
 
@@ -64,7 +65,7 @@
                 
                             <!-- Modal footer -->
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Sluiten</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Sluiten</button>
                             </div>
                         </div>
                     </div>
@@ -125,6 +126,44 @@
                                     <button type="submit" class="btn btn-warning">Notitie Aanpassen</button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- modal with the delete method -->
+                <div class="modal fade" id="deleteNote{{$note->id}}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+        
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">{{ $note->title }} Verwijderen</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <p>{{ $note->note }}</p>
+                                <div>
+                                    Personen gekoppeld aan deze notitite:
+                                    <ul>
+                                        @foreach($noteHasUsers as $noteHasUser)
+                                            @if($noteHasUser->note_id == $note->id)
+                                                <li>{{ $noteHasUser->user->name }} - {{ $noteHasUser->status->name }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <form method="POST" action="{{ route('notes.destroy', $note) }}">
+                                @csrf
+                                @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Verwijderen</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

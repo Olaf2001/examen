@@ -91,14 +91,19 @@ class NotesController extends Controller
         return redirect()->route('notes.index')->with('message','Notitie is aangepast');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
+    // delete the note and all relationships with the note
     public function destroy(Note $note)
     {
-        //
+        // first all relationships and then the note will be deleted
+        $noteHasUsers = NoteHasUser::all();
+        foreach($noteHasUsers as $noteHasUser) {
+            if($noteHasUser->note_id == $note->id) {
+                $noteHasUser->delete();
+            }
+        }
+
+        $note->delete();
+
+        return redirect()->route('notes.index')->with('message','Notitie is verwijderd');
     }
 }
