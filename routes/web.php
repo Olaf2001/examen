@@ -21,7 +21,10 @@ Route::get('/', function () {
 // all routes like register/login etc.
 Auth::routes();
 
-// an redirect route when you are loged in
-Route::get('/home', 'HomeController@index')->name('home');
-// all url's for the notes
-Route::resource('/notes','NotesController')->except(['create', 'show', 'edit']);
+// this routes could only be accessed by an admin or user
+Route::group(['middleware' => ['role:admin|user']], function() {
+    // an redirect route when you are loged in
+    Route::get('/home', 'HomeController@index')->name('home');
+    // all url's for the notes
+    Route::resource('/notes','NotesController')->except(['create', 'show', 'edit']);
+});
