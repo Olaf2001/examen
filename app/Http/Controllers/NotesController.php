@@ -55,38 +55,40 @@ class NotesController extends Controller
         return redirect()->route('notes.index')->with('message','Notitie is gemaakt');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Note $note)
+    // update a note
+    public function update(NotesRequest $request, Note $note)
     {
-        //
-    }
+        $note->title = $request->title;
+        $note->note = $request->note;
+        $note->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Note $note)
-    {
-        //
-    }
+        // the relationship between the users and note will first all be deleted, except the from the author.
+        // then all relationships (the new ones) will be made.
+        $noteHasUsers = NoteHasUser::all();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Note  $note
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Note $note)
-    {
-        //
+        foreach($noteHasUsers as $noteHasUser) {
+            if($noteHasUser->note_id == $note->id) {
+                if($noteHasUser->status_id <> 1) {
+                    $noteHasUser->delete();
+                }
+            }
+        }
+
+        // the users who are asigned
+        $requestUsers = $request->user_id;
+
+        if($requestUsers <> '') {
+            foreach($requestUsers as $requestUser) {
+                $noteAsigned = new NoteHasUser();
+
+                $noteAsigned->status_id = 2;
+                $noteAsigned->note_id = $note->id;
+                $noteAsigned->user_id = $requestUser;
+                $noteAsigned->save();
+            }
+        }
+
+        return redirect()->route('notes.index')->with('message','Notitie is aangepast');
     }
 
     /**
