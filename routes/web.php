@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 // all routes like register/login etc.
-Auth::routes();
+Auth::routes(['verify' => false, 'reset' => false ]);
 
 // this routes could only be accessed by an admin or user
 Route::group(['middleware' => ['role:admin|user']], function() {
@@ -32,8 +32,8 @@ Route::group(['middleware' => ['role:admin|user']], function() {
 // this routes could only be accessed by the admin
 Route::group(['middleware' => ['role:admin']], function() {
     // the admin can register people
-    Auth::routes(['register' => true ]);
+    Auth::routes(['register' => true, 'verify' => false, 'reset' => false ]);
 });
 
 // viewers of the site can't register
-Auth::routes(['register' => false ]);
+Auth::routes(['register' => false, 'verify' => false, 'reset' => false ]);
