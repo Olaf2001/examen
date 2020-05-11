@@ -28,3 +28,12 @@ Route::group(['middleware' => ['role:admin|user']], function() {
     // all url's for the notes
     Route::resource('/notes','NotesController')->except(['create', 'show', 'edit']);
 });
+
+// this routes could only be accessed by the admin
+Route::group(['middleware' => ['role:admin']], function() {
+    // the admin can register people
+    Auth::routes(['register' => true ]);
+});
+
+// viewers of the site can't register
+Auth::routes(['register' => false ]);
