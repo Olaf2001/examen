@@ -37,5 +37,12 @@ Route::group(['middleware' => ['role:admin']], function() {
     Auth::routes(['register' => true, 'verify' => false, 'reset' => false ]);
 });
 
+// this routes could only be accessed by an user
+Route::group(['middleware' => ['role:user']], function() {
+    // route so you can change your own user data
+    Route::resource('/users','UsersController')->except(['update']);
+});
+
+
 // viewers of the site can't register
 Auth::routes(['register' => false, 'verify' => false, 'reset' => false ]);

@@ -35,7 +35,14 @@ class UsersController extends Controller
         }
         $user->save();
 
-        return redirect()->back()->with('message','Gebruiker is aangepast');
+        if(auth()->user()->id == $user->id) {
+            $message = 'Mijn gegevens zijn aangepast';
+        }
+        else {
+            $message = 'Gebruiker is aangepast';
+        }
+
+        return redirect()->back()->with('message', $message);
     }
 
     // delete a user
