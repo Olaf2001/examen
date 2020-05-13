@@ -65,7 +65,7 @@
                                         @endif
                                         <a class="dropdown-item" href="{{ url('./users') }}">Alle gebruikers</a>
                                     @endcan
-                                    <a class="dropdown-item" data-toggle="modal" data-target="#myData">Mijn gegevens</a>
+                                    <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal" data-target="#myData">Mijn gegevens</a>
                                 </div>
                             </li>
                         @endguest
