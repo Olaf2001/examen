@@ -97,7 +97,7 @@
                                         <input name="name" type="text" class="form-control" placeholder="Vul hier de naam in" value="{{ Auth::user()->name }}">
                                         <label>Email van de gebruiker</label>
                                         <input name="email" type="email" class="form-control" placeholder="Vul hier de email in" value="{{ Auth::user()->email }}">
-                                        <a class="btn btn-link" href="change-password" data-toggle="collapse">Wachtwoord aanpassen</a>
+                                        <a class="btn btn-link" href="#change-password" data-toggle="collapse">Wachtwoord aanpassen</a>
                                         <div id="change-password" class="collapse">
                                             <label>Nieuw wachtwoord van gebruiker</label>
                                             <input name="password" type="password" class="form-control" placeholder="Vul het nieuwe wachtwoord in">
