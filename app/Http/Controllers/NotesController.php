@@ -11,13 +11,23 @@ use App\Http\Requests\NotesRequest;
 class NotesController extends Controller
 {
     // see a grid template of all notes
-    public function index()
+    public function index(Request $request)
     {
-        $notes = Note::all();
         $noteHasUsers = NoteHasUser::all();
         $users = User::all();
 
-        return view('notes.index', compact('notes','noteHasUsers','users'));
+        $filterUser = $request->query('filterUser');
+
+        if(User::where('id', $filterUser)->exists()) {
+            $notes = Note::join('note_has_users','note_has_users.note_id','=','notes.id')
+                ->select('notes.*')->where('user_id', $filterUser)->get();
+        }
+        else {
+            $filterUser = 0;
+            $notes = Note::all();
+        }
+
+        return view('notes.index', compact('notes','noteHasUsers','users','filterUser'));
     }
 
     // function to insert a note to the database
