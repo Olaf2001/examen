@@ -59,11 +59,12 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
-                                    @if (Route::has('register'))
-                                        @can('admin functions')
+                                    @can('admin functions')
+                                        @if (Route::has('register'))
                                             <a class="dropdown-item" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                        @endcan
-                                    @endif
+                                        @endif
+                                        <a class="dropdown-item" href="{{ url('./users') }}">Alle gebruikers</a>
+                                    @endcan
                                 </div>
                             </li>
                         @endguest
